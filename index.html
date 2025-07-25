@@ -1,25 +1,96 @@
 <!DOCTYPE html>
-<html>
-<!--Phần Đầu-->
+<html lang="en">
 <head>
-    <title>Tạ Triển </title>
-    <mta charst="utf-8"></mta>
+  <meta charset="UTF-8">
+  <title>Love Letter</title>
+  <style>
+    body {
+      margin: 0;
+      background: #fdf6f0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+    }
 
+    .envelope {
+      width: 200px;
+      height: 150px;
+      background: #ff6f61;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.4s;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .envelope:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-left: 100px solid transparent;
+      border-right: 100px solid transparent;
+      border-bottom: 75px solid #ff867c;
+    }
+
+    .letter {
+      width: 180px;
+      height: 120px;
+      background: white;
+      position: absolute;
+      top: 15px;
+      left: 10px;
+      padding: 10px;
+      text-align: center;
+      opacity: 0;
+      z-index: -1;
+      transition: opacity 0.5s;
+      border-radius: 4px;
+    }
+
+    .heart {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      font-size: 50px;
+      color: red;
+      opacity: 0;
+      transition: transform 1s ease, opacity 1s ease;
+    }
+
+    .show-heart {
+      transform: translate(-50%, -50%) scale(5);
+      opacity: 1;
+    }
+  </style>
 </head>
-  
-<!--Phần Thân-->
-<body> 
-    <h1>Hello world </h1>
-    <style> h1 {color:rgb(255, 0, 0)} </style>
-    <style> h1 {font-size: 100px};</style>
-    <p> Mình là Tạ Triển mình mới học code </p>
-    <style> p {font-size:50px} </style>
-    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/656de8d4-1141-4dbc-9abb-d3160e108aa5/djgu2vy-a9f02f62-9fc1-4ce4-b311-69ab20d4a344.png/v1/fill/w_500,h_500/tung_tung_tung_sahur_by_ellioputra2_djgu2vy-fullview.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTAwIiwicGF0aCI6IlwvZlwvNjU2ZGU4ZDQtMTE0MS00ZGJjLTlhYmItZDMxNjBlMTA4YWE1XC9kamd1MnZ5LWE5ZjAyZjYyLTlmYzEtNGNlNC1iMzExLTY5YWIyMGQ0YTM0NC5wbmciLCJ3aWR0aCI6Ijw9NTAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.fV2qFJ5ZYa7CNS6lB7K4LMmwOhr8zpO4QglIK1m9iPQ">
+<body>
 
-    <a href="https://www.facebook.com/neirt.812"> 
-        FB mình </a>
-    
+  <div class="envelope" onclick="openLetter()">
+    <div class="letter">
+      <p><strong>Yêu em ❤️</strong></p>
+      <p>Em là người rất đặc biệt!</p>
+    </div>
+  </div>
+
+  <div class="heart" id="heart">❤️</div>
+
+  <script>
+    function openLetter() {
+      const letter = document.querySelector(".letter");
+      const heart = document.getElementById("heart");
+
+      letter.style.opacity = 1;
+      heart.classList.add("show-heart");
+
+      // Sau vài giây, có thể làm mờ lại trái tim
+      setTimeout(() => {
+        heart.classList.remove("show-heart");
+      }, 3000);
+    }
+  </script>
 
 </body>
-
 </html>
