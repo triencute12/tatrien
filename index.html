@@ -1,96 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Love Letter</title>
-  <style>
-    body {
-      margin: 0;
-      background: #fdf6f0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: Arial, sans-serif;
-    }
+<html>
+  <!--Phần Đầu-->
+  <head>
+    <title>Tạ Khanh</title>
+    <meta charset="utf-8">
 
-    .envelope {
-      width: 200px;
-      height: 150px;
-      background: #ff6f61;
-      position: relative;
-      cursor: pointer;
-      transition: transform 0.4s;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    }
+  </head>
 
-    .envelope:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      border-left: 100px solid transparent;
-      border-right: 100px solid transparent;
-      border-bottom: 75px solid #ff867c;
-    }
+  <body>
+    <h> Chào mừng bạn đến với                                   TạKhanh</h>
+    <style>
+      h {font-size: 50px;}
+      h {color:rgb(255, 35, 82)}
+      body {background-image: url(https://photo.znews.vn/w660/Uploaded/wpdhnwhnw/2025_07_24/118874280_1365422363652471_5734341211653482677_n.jpg);}
+    </style>
+    <a href="https://www.facebook.com/tavankhanh.329741?locale=vi_VN"> Kết bạn FB</a>
+    
 
-    .letter {
-      width: 180px;
-      height: 120px;
-      background: white;
-      position: absolute;
-      top: 15px;
-      left: 10px;
-      padding: 10px;
-      text-align: center;
-      opacity: 0;
-      z-index: -1;
-      transition: opacity 0.5s;
-      border-radius: 4px;
-    }
+  </body>
 
-    .heart {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0);
-      font-size: 50px;
-      color: red;
-      opacity: 0;
-      transition: transform 1s ease, opacity 1s ease;
-    }
 
-    .show-heart {
-      transform: translate(-50%, -50%) scale(5);
-      opacity: 1;
-    }
-  </style>
-</head>
-<body>
 
-  <div class="envelope" onclick="openLetter()">
-    <div class="letter">
-      <p><strong>Yêu em ❤️</strong></p>
-      <p>Em là người rất đặc biệt!</p>
-    </div>
-  </div>
 
-  <div class="heart" id="heart">❤️</div>
 
-  <script>
-    function openLetter() {
-      const letter = document.querySelector(".letter");
-      const heart = document.getElementById("heart");
 
-      letter.style.opacity = 1;
-      heart.classList.add("show-heart");
-
-      // Sau vài giây, có thể làm mờ lại trái tim
-      setTimeout(() => {
-        heart.classList.remove("show-heart");
-      }, 3000);
-    }
-  </script>
-
-</body>
 </html>
