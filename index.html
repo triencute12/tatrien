@@ -1,27 +1,196 @@
-<!DOCTYPE html>
-<html>
-  <!--Phần Đầu-->
-  <head>
-    <title>Tạ Khanh</title>
-    <meta charset="utf-8">
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Làm quen với tôi</title>
+  <style>
+    /* Reset cơ bản */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  </head>
+    html, body {
+      height: 100%;
+      font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
 
-  <body>
-    <h> Chào mừng bạn đến với                                   TạKhanh</h>
-    <style>
-      h {font-size: 50px;}
-      h {color:rgb(255, 35, 82)}
-      body {background-image: url(https://photo.znews.vn/w660/Uploaded/wpdhnwhnw/2025_07_24/118874280_1365422363652471_5734341211653482677_n.jpg);}
-    </style>
-    <a href="https://www.facebook.com/tavankhanh.329741?locale=vi_VN"> Kết bạn FB</a>
-    
+    /* Background toàn trang: gradient mềm + hình trái tim bằng SVG ở giữa */
+    .page {
+      min-height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #ffd1e6 0%, #fff0f5 100%);
+      position: relative;
+      overflow: hidden;
+    }
 
-  </body>
+    /* SVG trái tim lớn làm nền, mờ nhẹ */
+    .heart-bg {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      opacity: 0.15;
+      transform: scale(1.6);
+    }
+    .heart-bg svg { width: 60vmax; height: 60vmax; }
 
+    /* Hộp nội dung chính */
+    .card {
+      z-index: 2;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(6px);
+      border-radius: 14px;
+      padding: 36px 28px;
+      text-align: center;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+      max-width: 480px;
+      width: calc(100% - 40px);
+    }
 
+    h1 {
+      font-size: clamp(20px, 4.6vw, 34px);
+      color: #2b2b2b;
+      margin-bottom: 12px;
+    }
 
+    p.lead {
+      color: #444;
+      margin-bottom: 22px;
+      font-size: 15px;
+    }
 
+    .buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
 
+    button {
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-size: 15px;
+      cursor: pointer;
+      border: none;
+      min-width: 120px;
+    }
 
+    .btn-accept {
+      background: linear-gradient(90deg,#ff6b9a,#ff8fb3);
+      color: white;
+      box-shadow: 0 6px 16px rgba(255,107,154,0.28);
+    }
+
+    .btn-decline {
+      background: transparent;
+      border: 2px solid #d3a6b7;
+      color: #6b4750;
+    }
+
+    /* Khi ẩn card */
+    .hidden {
+      display: none !important;
+    }
+
+    /* Footer/help text nhỏ */
+    .small {
+      margin-top: 14px;
+      font-size: 13px;
+      color: #666;
+    }
+
+    @media (max-width:420px){
+      .card { padding: 22px; border-radius: 12px; }
+      .buttons { gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page" role="main" aria-label="Làm quen với tôi page">
+    <!-- Heart SVG làm nền -->
+    <div class="heart-bg" aria-hidden="true">
+      <!-- đơn giản, dễ hiển thị ở mọi trình duyệt -->
+      <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0" stop-color="#ff8fb3"/>
+            <stop offset="1" stop-color="#ff6b9a"/>
+          </linearGradient>
+        </defs>
+        <path fill="url(#g)" d="M471.7 73.6c-52.5-46.1-134.9-38.9-186.4 12.2L256 115.1l-29.3-29.3C175.2 34.7 92.8 27.6 40.3 73.6-21.3 131.2-10.9 231.8 43 285.9L239 481.8c6 6 15.7 6 21.7 0L469 285.9c54-54.1 64.4-154.7- - - " opacity="0.98"/>
+        <!-- Fallback simpler heart shape overlay for older browsers -->
+        <path fill="url(#g)" d="M256 448s-192-120-192-240c0-54 44-98 98-98 40 0 62 25 78 48 16-23 38-48 78-48 54 0 98 44 98 98 0 120-192 240-192 240z"/>
+      </svg>
+    </div>
+
+    <div class="card" id="modalCard" role="dialog" aria-labelledby="title" aria-describedby="desc">
+      <h1 id="title">làm quen với tôi</h1>
+      <p class="lead" id="desc">Mình muốn làm quen — bạn có đồng ý không?</p>
+
+      <div class="buttons" role="group" aria-label="Tùy chọn">
+        <button class="btn-accept" id="acceptBtn" aria-label="Đồng ý">Đồng ý</button>
+        <button class="btn-decline" id="declineBtn" aria-label="Không">Không</button>
+      </div>
+
+      <div class="small" id="afterText" style="display:none;">
+        Cảm ơn bạn! Bạn sẽ được chuyển hướng.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const acceptBtn = document.getElementById('acceptBtn');
+      const declineBtn = document.getElementById('declineBtn');
+      const card = document.getElementById('modalCard');
+      const afterText = document.getElementById('afterText');
+
+      // Link EXACT do bạn cung cấp
+      const fbLink = "https://www.facebook.com/share/1D6j4Eazv1/?mibextid=wwXIfr";
+
+      acceptBtn.addEventListener('click', function(){
+        // Hiển thị phản hồi nhỏ rồi mở link trong tab mới
+        afterText.style.display = 'block';
+        // mở link Facebook trong tab mới
+        window.open(fbLink, '_blank', 'noopener,noreferrer');
+      });
+
+      declineBtn.addEventListener('click', function(){
+        // Ẩn khung nội dung, hiển thị thông báo nhẹ
+        card.classList.add('hidden');
+
+        // tạo thông báo nhỏ tạm thời
+        const note = document.createElement('div');
+        note.style.position = 'fixed';
+        note.style.left = '50%';
+        note.style.top = '18px';
+        note.style.transform = 'translateX(-50%)';
+        note.style.background = 'rgba(0,0,0,0.75)';
+        note.style.color = '#fff';
+        note.style.padding = '10px 14px';
+        note.style.borderRadius = '8px';
+        note.style.boxShadow = '0 6px 18px rgba(0,0,0,0.3)';
+        note.style.zIndex = 9999;
+        note.textContent = 'Đã từ chối — không sao đâu!';
+        document.body.appendChild(note);
+
+        setTimeout(() => note.remove(), 2500);
+      });
+
+      // cho phép Enter kích hoạt ĐỒNG Ý khi focus nút
+      acceptBtn.addEventListener('keyup', function(e){
+        if(e.key === 'Enter') acceptBtn.click();
+      });
+      declineBtn.addEventListener('keyup', function(e){
+        if(e.key === 'Enter') declineBtn.click();
+      });
+
+    })();
+  </script>
+</body>
 </html>
