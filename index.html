@@ -1,203 +1,297 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Flappy Cheems</title>
-  <style>
-    :root{--bg:#86d2ff}
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial}
-    body{display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#a8e6ff, #6ccfff);}
-    .wrap{width:100%;max-width:900px;padding:18px}
-    h1{color:#033b5a;text-align:center;margin:6px 0 12px}
-    canvas{display:block;width:100%;background:linear-gradient(#9be7ff,#6ccfff);border-radius:12px;box-shadow:0 8px 30px rgba(2,6,23,0.15)}
-    .controls{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
-    .score{font-weight:700;color:#033b5a}
-    .btn{background:#fff;border-radius:8px;padding:8px 12px;border:none;cursor:pointer;box-shadow:0 6px 18px rgba(2,6,23,0.08)}
-    .hint{color:#064a6b;font-size:13px}
-    .overlay{position:fixed;left:0;top:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);}
-    .card{background:#fff;padding:18px;border-radius:10px;text-align:center;width:320px}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trien Nguyen | Developer</title>
 
-    /* full-screen scary overlay */
-    #scaryOverlay{position:fixed;top:0;left:0;right:0;bottom:0;display:none;align-items:center;justify-content:center;background:#000;z-index:9999}
-    #scaryOverlay img{width:100%;height:100%;object-fit:cover;display:block}
-  </style>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#0f172a;
+    color:white;
+    overflow-x:hidden;
+}
+
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:-1;
+}
+
+header{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:20px;
+}
+
+.hero{
+    max-width:800px;
+}
+
+.avatar{
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    margin:auto;
+    border:4px solid #38bdf8;
+    box-shadow:0 0 40px #38bdf8;
+    background:url('https://avatars.githubusercontent.com/u/9919?v=4');
+    background-size:cover;
+    background-position:center;
+}
+
+.hero h1{
+    margin-top:25px;
+    font-size:4rem;
+    background:linear-gradient(90deg,#38bdf8,#8b5cf6);
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+.hero h2{
+    color:#94a3b8;
+    font-weight:400;
+    margin-top:10px;
+}
+
+.hero p{
+    margin-top:20px;
+    color:#cbd5e1;
+    line-height:1.8;
+}
+
+.btns{
+    margin-top:30px;
+}
+
+.btn{
+    display:inline-block;
+    margin:10px;
+    padding:14px 28px;
+    border-radius:50px;
+    text-decoration:none;
+    color:white;
+    transition:.3s;
+}
+
+.primary{
+    background:#38bdf8;
+}
+
+.secondary{
+    border:2px solid #38bdf8;
+}
+
+.btn:hover{
+    transform:translateY(-5px);
+}
+
+section{
+    max-width:1100px;
+    margin:auto;
+    padding:80px 20px;
+}
+
+.title{
+    font-size:2.5rem;
+    margin-bottom:40px;
+    text-align:center;
+    color:#38bdf8;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:rgba(255,255,255,.05);
+    backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,.1);
+    padding:25px;
+    border-radius:20px;
+    transition:.4s;
+}
+
+.card:hover{
+    transform:translateY(-10px);
+    border-color:#38bdf8;
+}
+
+.card h3{
+    margin-bottom:15px;
+}
+
+.skills{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:15px;
+}
+
+.skill{
+    padding:12px 20px;
+    border-radius:30px;
+    background:#1e293b;
+    border:1px solid #334155;
+}
+
+footer{
+    text-align:center;
+    padding:40px;
+    color:#94a3b8;
+}
+</style>
 </head>
+
 <body>
-  <div class="wrap">
-    <h1>Flappy Cheems — Dễ hơn và kem dài hơn</h1>
-    <canvas id="game" width="900" height="600"></canvas>
-    <div class="controls">
-      <div class="score">Score: <span id="score">0</span></div>
-      <div class="hint">Nhấn <strong>space</strong> hoặc chạm để nhảy</div>
-      <div>
-        <button class="btn" id="startBtn">Bắt đầu / Khởi động lại</button>
-      </div>
+
+<canvas id="bg"></canvas>
+
+<header>
+<div class="hero">
+    <div class="avatar"></div>
+
+    <h1>Triển</h1>
+
+    <h2>First Year IT Student @ PTIT</h2>
+
+    <p>
+        Xin chào 👋<br>
+        Mình là Triển, sinh viên Công nghệ Thông tin năm nhất tại PTIT.
+        Đam mê lập trình, thuật toán, phát triển phần mềm và khám phá công nghệ mới.
+        Mục tiêu của mình là trở thành Software Engineer chuyên nghiệp.
+    </p>
+
+    <div class="btns">
+        <a class="btn primary"
+           href="https://www.facebook.com/neirt.812"
+           target="_blank">
+           Facebook
+        </a>
+
+        <a class="btn secondary"
+           href="#about">
+           Khám phá
+        </a>
     </div>
-  </div>
+</div>
+</header>
 
-  <!-- Overlay that previously showed at score 5 (kept if needed) -->
-  <div id="ghostOverlay" style="display:none"><img src="ghost.png" alt="ghost" style="width:100%;height:100%;object-fit:cover"/></div>
+<section id="about">
+    <h2 class="title">About Me</h2>
 
-  <!-- NEW: scary overlay shown PERMANENTLY at score == 2 -->
-  <div id="scaryOverlay"><img src="https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/478171GVH/anh-mo-ta.png" alt="scary"/></div>
-  <!-- Scary audio (place a file named 'scare.mp3' in same folder) -->
-  <audio id="scareAudio" src="scare.mp3" preload="auto" loop></audio>
+    <div class="cards">
+        <div class="card">
+            <h3>🎓 Education</h3>
+            <p>
+                PTIT - Posts and Telecommunications Institute of Technology
+                <br><br>
+                Major: Information Technology
+            </p>
+        </div>
 
-  <script>
-    const canvas = document.getElementById('game');
-    const ctx = canvas.getContext('2d');
-    const W = canvas.width; const H = canvas.height;
+        <div class="card">
+            <h3>💻 Coding</h3>
+            <p>
+                Đang học C++, Data Structures,
+                Algorithms, OOP và Competitive Programming.
+            </p>
+        </div>
 
-    const GAME_SPEED = 140;
-    const SPAWN_INTERVAL = 2200;
-    const MIN_GAP = 170;
-    const GRAVITY = 800;
-    const JUMP = -380;
+        <div class="card">
+            <h3>🚀 Goal</h3>
+            <p>
+                Trở thành Full Stack Developer
+                và Software Engineer chuyên nghiệp.
+            </p>
+        </div>
+    </div>
+</section>
 
-    let running = false;
-    let score = 0;
-    let pipes = [];
-    let spawnTimer = 0;
+<section>
+    <h2 class="title">Skills</h2>
 
-    const player = {
-      x: 140,
-      y: H/2,
-      r: 22,
-      vy: 0,
-      gravity: GRAVITY,
-      jump: JUMP
-    };
+    <div class="skills">
+        <div class="skill">C++</div>
+        <div class="skill">HTML</div>
+        <div class="skill">CSS</div>
+        <div class="skill">JavaScript</div>
+        <div class="skill">Algorithms</div>
+        <div class="skill">OOP</div>
+        <div class="skill">Competitive Programming</div>
+    </div>
+</section>
 
-    function jump(){
-      if(!running) return startGame();
-      player.vy = player.jump;
-    }
+<section>
+    <h2 class="title">Quote</h2>
 
-    document.addEventListener('keydown', e => { if(e.code === 'Space') jump(); });
-    canvas.addEventListener('mousedown', jump);
-    canvas.addEventListener('touchstart', e=>{ e.preventDefault(); jump(); }, {passive:false});
-    document.getElementById('startBtn').addEventListener('click', ()=> startGame(true));
+    <div class="card" style="text-align:center">
+        <h3>"Code. Learn. Build. Repeat."</h3>
+        <p>
+            Every expert was once a beginner.
+        </p>
+    </div>
+</section>
 
-    function startGame(forceRestart=false){
-      // stop any scary audio and overlays when restarting
-      const scaryOverlay = document.getElementById('scaryOverlay');
-      const scareAudio = document.getElementById('scareAudio');
-      if(scaryOverlay) scaryOverlay.style.display = 'none';
-      if(scareAudio){ try{ scareAudio.pause(); scareAudio.currentTime = 0; }catch(e){} }
+<footer>
+    © 2026 Triển | PTIT Student | Future Software Engineer
+</footer>
 
-      if(running && !forceRestart) return;
-      running = true; score = 0; pipes = []; spawnTimer = 0;
-      player.y = H/2; player.vy = 0;
-      document.getElementById('score').textContent = score;
-      last = performance.now();
-      requestAnimationFrame(loop);
-    }
+<script>
+const canvas=document.getElementById("bg");
+const ctx=canvas.getContext("2d");
 
-    function gameOver(){
-      running = false;
-      const overlay = document.createElement('div'); overlay.className='overlay';
-      overlay.innerHTML = `<div class="card"><h3>Game Over</h3><p>Score: ${score}</p><button id='try' class='btn'>Chơi lại</button></div>`;
-      document.body.appendChild(overlay);
-      document.getElementById('try').addEventListener('click', ()=>{ document.body.removeChild(overlay); startGame(true); });
-    }
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
 
-    function spawnPipe(){
-      const minLen = 40;
-      const maxLen = Math.floor((H - 80 - MIN_GAP) * 0.7);
-      const totalAvailable = H - 80 - MIN_GAP;
-      let topLen = Math.floor(Math.random() * (Math.max(1, totalAvailable - minLen))) + minLen;
-      topLen = Math.min(topLen, maxLen);
-      let bottomMax = totalAvailable - topLen;
-      bottomMax = Math.max(bottomMax, minLen);
-      let bottomLen = Math.floor(Math.random() * (bottomMax - minLen + 1)) + minLen;
-      if(topLen + bottomLen > totalAvailable) bottomLen = totalAvailable - topLen;
-      pipes.push({x: W + 80, topLen: topLen, bottomLen: bottomLen, passed:false});
-    }
+let particles=[];
 
-    function circleRectCollision(cx, cy, r, rx, ry, rw, rh){
-      const closestX = Math.max(rx, Math.min(cx, rx+rw));
-      const closestY = Math.max(ry, Math.min(cy, ry+rh));
-      const dx = cx - closestX; const dy = cy - closestY;
-      return (dx*dx + dy*dy) < r*r;
-    }
+for(let i=0;i<100;i++){
+    particles.push({
+        x:Math.random()*canvas.width,
+        y:Math.random()*canvas.height,
+        r:Math.random()*2+1,
+        dx:(Math.random()-0.5)*1,
+        dy:(Math.random()-0.5)*1
+    });
+}
 
-    function drawBackground(){
-      ctx.fillStyle = '#9be7ff'; ctx.fillRect(0,0,W,H);
-      ctx.fillStyle='#5bb3e6'; ctx.fillRect(0,H-80,W,80);
-    }
+function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
 
-    function drawCheems(x,y,r){
-      ctx.save();
-      ctx.translate(x,y);
-      ctx.beginPath(); ctx.ellipse(r*0.1, r+6, r*0.9, r*0.35, 0,0,Math.PI*2); ctx.fillStyle='rgba(0,0,0,0.12)'; ctx.fill();
-      ctx.beginPath(); ctx.arc(0,0,r,0,Math.PI*2); ctx.fillStyle='#f2c38f'; ctx.fill();
-      ctx.beginPath(); ctx.arc(-6,-4,4,0,Math.PI*2); ctx.fillStyle='#231f20'; ctx.fill();
-      ctx.beginPath(); ctx.arc(6,-4,3.2,0,Math.PI*2); ctx.fill();
-      ctx.beginPath(); ctx.ellipse(0,6,5,3,0,0,Math.PI*2); ctx.fillStyle='#231f20'; ctx.fill();
-      ctx.beginPath(); ctx.moveTo(-8,10); ctx.quadraticCurveTo(0,14,8,10); ctx.strokeStyle='#9a5f3a'; ctx.lineWidth=2; ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(-r+6,-r/3); ctx.quadraticCurveTo(-r-6, -r-6, -r/4, -r+4); ctx.fillStyle='#d39b6a'; ctx.fill();
-      ctx.restore();
-    }
+    particles.forEach(p=>{
+        p.x+=p.dx;
+        p.y+=p.dy;
 
-    function drawIceCreamColumn(x, topLen, bottomLen){
-      if(topLen > 0){
-        const scoopY = topLen - 18;
-        ctx.beginPath(); ctx.arc(x, scoopY, 26, 0, Math.PI*2); ctx.fillStyle='#ffd4d4'; ctx.fill();
-        ctx.beginPath(); ctx.moveTo(x-22, scoopY+18); ctx.lineTo(x+22, scoopY+18); ctx.lineTo(x, 0); ctx.closePath(); ctx.fillStyle='#f0b36b'; ctx.fill();
-      }
-      if(bottomLen > 0){
-        const baseY = H - 80;
-        const scoopY = baseY - bottomLen + 18;
-        ctx.beginPath(); ctx.arc(x, scoopY, 26, 0, Math.PI*2); ctx.fillStyle='#ffd4d4'; ctx.fill();
-        ctx.beginPath(); ctx.moveTo(x-22, scoopY-18); ctx.lineTo(x+22, scoopY-18); ctx.lineTo(x, baseY); ctx.closePath(); ctx.fillStyle='#f0b36b'; ctx.fill();
-      }
-    }
+        if(p.x<0||p.x>canvas.width) p.dx*=-1;
+        if(p.y<0||p.y>canvas.height) p.dy*=-1;
 
-    let last = performance.now();
-    function loop(now){
-      const dt = Math.min(40, now - last)/1000; last = now;
-      if(!running) return;
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle="#38bdf8";
+        ctx.fill();
+    });
 
-      player.vy += player.gravity * dt;
-      player.y += player.vy * dt;
+    requestAnimationFrame(animate);
+}
 
-      spawnTimer += dt*1000;
-      if(spawnTimer > SPAWN_INTERVAL){ spawnTimer = 0; spawnPipe(); }
+animate();
+</script>
 
-      for(let i=pipes.length-1;i>=0;i--){
-        pipes[i].x -= GAME_SPEED * dt;
-        if(!pipes[i].passed && pipes[i].x + 40 < player.x){
-          pipes[i].passed = true; score++;
-          document.getElementById('score').textContent = score;
-          // when score reaches 2, show scary image permanently and play scary audio in loop
-          if(score === 2){
-            const overlay = document.getElementById('scaryOverlay');
-            const audio = document.getElementById('scareAudio');
-            if(overlay){ overlay.style.display = 'flex'; }
-            if(audio){
-              audio.loop = true;
-              audio.play().catch(()=>{ /* autoplay may be blocked */ });
-            }
-            running = false;
-          }
-          if(score === 5){ const overlay = document.getElementById('ghostOverlay'); if(overlay) { overlay.style.display = 'flex'; setTimeout(()=>{ overlay.style.display='none'; }, 2000); } }
-        }
-        if(pipes[i].x < -160) pipes.splice(i,1);
-      }
-
-      if(player.y + player.r > H - 80){ player.y = H - 80 - player.r; gameOver(); }
-      if(player.y - player.r < 0){ player.y = player.r; player.vy = 0; }
-
-      ctx.clearRect(0,0,W,H);
-      drawBackground();
-      for(const p of pipes){ drawIceCreamColumn(p.x, p.topLen, p.bottomLen); }
-      drawCheems(player.x, player.y, player.r);
-
-      if(running) requestAnimationFrame(loop);
-    }
-
-    (function init(){ ctx.clearRect(0,0,W,H); drawBackground(); drawCheems(player.x, player.y, player.r); })();
-  </script>
 </body>
 </html>
